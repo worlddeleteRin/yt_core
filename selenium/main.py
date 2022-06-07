@@ -36,4 +36,3 @@ def launch_default_selenium_driver(
     )
     return driver
 
-
