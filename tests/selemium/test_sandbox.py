@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.chrome.webdriver import WebDriver
-from yt_core.selenium.main import launch_default_selenium_driver
+from yt_core.selenium.main import ScreenDimensionEnum, launch_default_selenium_driver
 from yt_core.logging import lgd,lgw,lge
 import pytest
 # import psutil
@@ -8,12 +8,13 @@ import threading
 
 
 test_instances_to_spawn = 10
-instances_to_spawn = 6
-headless = False
+instances_to_spawn = 3
+headless = True
 # link="https://www.youtube.com/watch?v=5qap5aO4i9A"
 link="https://www.youtube.com/watch?v=4RLY1Jq7K9c"
 play_btn_class="ytp-play-button"
 
+# not threaded
 @pytest.mark.skip
 def test_webdriver_mem_usage():
     """
@@ -33,6 +34,7 @@ def test_webdriver_mem_usage():
     for d in drivers:
         d.close()
 
+# not threaded too
 @pytest.mark.skip
 def test_multiple_instances():
     drivers: list[WebDriver] = []
@@ -55,18 +57,32 @@ def test_multiple_instances():
             wd.quit()
         time.sleep(5)
 
+# threaded in one thread?
 # @pytest.mark.skip
 def test_multiple_instances_threaded():
-    def threaded_play_video():
-        wd: WebDriver = launch_default_selenium_driver(headless=headless)
+    workers = 3
+    def play_video():
+        wd: WebDriver = launch_default_selenium_driver(
+            headless=headless,
+            screen_dimenstion=ScreenDimensionEnum.svga
+        )
         wd.get(link)
+        time.sleep(1)
         play_btn = wd.find_element_by_class_name(play_btn_class)
         if play_btn:
             play_btn.click()
         time.sleep(20)
         wd.close()
 
-    for i in range(0, instances_to_spawn):
-        th = threading.Thread(target=threaded_play_video)
+    def thread_play_video():
+        for i in range(0, instances_to_spawn):
+            th = threading.Thread(target=play_video)
+            th.start()
+
+    lgd('Spawning workers...')
+    for i in range(0, workers):
+        th = threading.Thread(target=thread_play_video)
         th.start()
+
     lgd('Run before exit...')
+
