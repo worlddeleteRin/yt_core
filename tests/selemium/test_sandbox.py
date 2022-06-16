@@ -34,7 +34,6 @@ def test_webdriver_mem_usage():
     for d in drivers:
         d.close()
 
-# not threaded too
 @pytest.mark.skip
 def test_multiple_instances():
     drivers: list[WebDriver] = []
