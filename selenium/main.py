@@ -7,12 +7,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class ScreenDimensionEnum(tuple, Enum):
+# class ScreenDimensionEnum:
+
+class ScreenDimensionEnum(Enum):
     fullhd = (1920,1080)
     hd = (1600,900)
     lowhd = (1366,768)
     sxga = (1280,1024)
     svga = (800,600)
+
 
 def launch_default_selenium_driver(
     headless: bool = True,
