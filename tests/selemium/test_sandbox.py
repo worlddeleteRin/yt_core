@@ -8,8 +8,8 @@ import threading
 
 
 test_instances_to_spawn = 10
-instances_to_spawn = 3
-headless = True
+instances_to_spawn = 1
+headless = True 
 # link="https://www.youtube.com/watch?v=5qap5aO4i9A"
 link="https://www.youtube.com/watch?v=4RLY1Jq7K9c"
 play_btn_class="ytp-play-button"
@@ -59,18 +59,18 @@ def test_multiple_instances():
 # threaded in one thread?
 # @pytest.mark.skip
 def test_multiple_instances_threaded():
-    workers = 3
+    workers = 1
     def play_video():
         wd: WebDriver = launch_default_selenium_driver(
             headless=headless,
-            screen_dimenstion=ScreenDimensionEnum.svga
+            screen_dimension=ScreenDimensionEnum.svga
         )
         wd.get(link)
         time.sleep(1)
         play_btn = wd.find_element_by_class_name(play_btn_class)
         if play_btn:
             play_btn.click()
-        time.sleep(20)
+        time.sleep(5)
         wd.close()
 
     def thread_play_video():

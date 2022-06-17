@@ -1,10 +1,11 @@
 from enum import Enum
 from selenium import webdriver
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.chrome.service import Service
 import time
 
 import logging
@@ -20,10 +21,11 @@ class ScreenDimensionEnum(tuple, Enum):
 
 def launch_default_selenium_driver(
     headless: bool = True,
-    screen_dimenstion: ScreenDimensionEnum = ScreenDimensionEnum.fullhd
+    screen_dimension: ScreenDimensionEnum = ScreenDimensionEnum.fullhd
 ) -> WebDriver:
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
 
+    """
     chrome_options = Options()
 
     if headless:
@@ -31,7 +33,7 @@ def launch_default_selenium_driver(
     chrome_options.add_argument(f"user-agent={user_agent}")
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--allow-running-insecure-content')
-    chrome_options.add_argument(f"--window-size={screen_dimenstion[0]},{screen_dimenstion[1]}")
+    chrome_options.add_argument(f"--window-size={screen_dimension[0]},{screen_dimension[1]}")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--proxy-server='direct://'")
     chrome_options.add_argument("--proxy-bypass-list=*")
@@ -41,8 +43,19 @@ def launch_default_selenium_driver(
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--mute-audio")
 
+    service = Service(
+        executable_path="/usr/bin/google-chrome-stable",
+    )
+
     driver = webdriver.Chrome(
+        service_args=service,
         options=chrome_options
+    )
+    """
+    f_options = webdriver.FirefoxOptions()
+    f_options.headless = headless
+    driver = webdriver.Firefox(
+        options=f_options
     )
     return driver
 
