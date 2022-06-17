@@ -1,12 +1,7 @@
 from enum import Enum
 from selenium import webdriver
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.chrome.service import Service
-import time
+# import time
 
 import logging
 

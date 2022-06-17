@@ -1,5 +1,5 @@
 import time
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.firefox.webdriver import WebDriver
 from yt_core.selenium.main import ScreenDimensionEnum, launch_default_selenium_driver
 from yt_core.logging import lgd,lgw,lge
 import pytest

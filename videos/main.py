@@ -1,7 +1,7 @@
 import threading
 import time
 
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 from yt_core.selenium.main import launch_default_selenium_driver
 from yt_core.selenium.main import ScreenDimensionEnum
@@ -19,7 +19,7 @@ class YtVideo:
         def play_video():
             wd: WebDriver = launch_default_selenium_driver(
                 headless=q.headless,
-                screen_dimenstion=ScreenDimensionEnum.svga
+                screen_dimension=ScreenDimensionEnum.svga
             )
             wd.get(q.video_link)
             time.sleep(1)
