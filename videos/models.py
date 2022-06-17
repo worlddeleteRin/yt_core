@@ -11,3 +11,6 @@ class SeleniumWatchVideoParams(BaseModel):
     play_btn_class: str="ytp-play-button"
     # watch number in seconds
     watch_time: int = 20
+
+    class Config:
+        use_enum_values = True

@@ -6,6 +6,9 @@ import pytest
 # import psutil
 import threading
 
+from yt_core.videos.main import YtVideo
+from yt_core.videos.models import SeleniumWatchVideoParams
+
 
 test_instances_to_spawn = 10
 instances_to_spawn = 1
@@ -60,6 +63,7 @@ def test_multiple_instances():
 # @pytest.mark.skip
 def test_multiple_instances_threaded():
     workers = 1
+    """
     def play_video():
         wd: WebDriver = launch_default_selenium_driver(
             headless=headless,
@@ -77,10 +81,17 @@ def test_multiple_instances_threaded():
         for i in range(0, instances_to_spawn):
             th = threading.Thread(target=play_video)
             th.start()
+    """
+    q = SeleniumWatchVideoParams(
+        video_link=link,
+        watch_time=5
+    )
 
     lgd('Spawning workers...')
     for i in range(0, workers):
-        th = threading.Thread(target=thread_play_video)
+        th = threading.Thread(
+            target=YtVideo.selenium_watch_video(q=q)
+        )
         th.start()
 
     lgd('Run before exit...')
