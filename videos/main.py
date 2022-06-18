@@ -29,6 +29,10 @@ class YtVideo:
             time.sleep(q.watch_time)
             wd.close()
 
-        for i in range(0, q.instances_count):
-            th = threading.Thread(target=play_video)
+        threads = [threading.Thread(target=play_video) for i in range(0, q.instances_count)]
+        # for i in range(0, q.instances_count):
+            # th = threading.Thread(target=play_video)
+        for th in threads:
             th.start()
+        for th in threads:
+            th.join()
