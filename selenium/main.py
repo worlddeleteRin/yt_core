@@ -52,6 +52,7 @@ def launch_default_selenium_driver(
     """
     f_options = webdriver.FirefoxOptions()
     f_options.headless = headless
+    f_options.set_preference("media.volume_scale", "0.0")
     driver = webdriver.Firefox(
         options=f_options
     )
